@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Listado de Avisos de Adopción</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/lista.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1>Listado de Avisos de Adopción</h1>
+    <nav>
+      <a href="index.html">Portada</a>
+      <a href="aviso_form.html">Agregar aviso</a>
+    </nav>
+  </header>
+
+  <main>
+<section id="tablaAvisos">
+<h2> Tabla de avisos </h2>
+<p>Aquí se muestran todos los avisos de mascotas</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha Publicación</th>
+        <th>Fecha Entrega</th>
+        <th>Comuna</th>
+        <th>Cantidad / Tipo / Edad</th>
+        <th>Nombre Contacto</th>
+        <th>Fotos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-aviso="1">
+        <td>2025-08-18</td>
+        <td>2025-08-21</td>
+        <td>Santiago</td>
+        <td>1 Gato / 2 meses</td>
+        <td>Juan Pérez</td>
+        <td><img src="img/mi_gato.png" class="thumbnail" alt="Gato" onclick="open_image_viewer('img/mi_gato.png')"></td>
+      </tr>
+      <tr data-aviso="2">
+        <td>2025-08-17</td>
+        <td>2025-08-22</td>
+        <td>Ñuñoa</td>
+        <td>1 Gato / 1 año</td>
+        <td>María López</td>
+        <td><img src="img/mi_gato_2.png" class="thumbnail" alt="Gato" onclick="open_image_viewer('img/mi_gato_2.png')"></td>
+      </tr>
+      <!-- agrega más filas según sea necesario -->
+    </tbody>
+  </table>
+</section>
+
+    <div id="visorImagen" class="oculto">
+      <div id="visorContenido">
+        <img id="imagenGrande" class="display_image" src="img/mi_gato.png" alt="Imagen a tamaño completo" >
+        <br>
+        <button id="cerrarVisor" onClick="close_image_viewer()">Cerrar</button>
+      </div>
+    </div>
+    
+  </main>
+    <footer>
+    <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
+  </footer>
+</body>
+</html>
+

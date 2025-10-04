@@ -1,0 +1,176 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #fafafa;
+  color: #333;
+}
+
+header {
+  background: #4CAF50;
+  color: white;
+  padding: 1em;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+main {
+  padding: 1em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background: #eee;
+}
+
+footer {
+  text-align: center;
+  padding: 1em;
+  background: #eee;
+  margin-top: 20px;
+}
+
+.thumbnail {
+  width: 320px;
+  height: 240px;
+}
+
+.display_image {
+  width: 800px;
+  height: 600px;
+}
+
+.oculto {
+  display: none;
+}
+
+fieldset {
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  padding: 1em;
+}
+
+legend {
+  font-weight: bold;
+}
+
+#visorImagen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+#visorContenido {
+  text-align: center;
+  color: white;
+}
+
+#visorContenido img {
+  width: 800px;
+  height: 600px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 3px solid white;
+}
+
+
+/* ESTADÍSTICAS */
+.grafico {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+}
+
+/* --- Barras --- */
+.barras div {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.barras span {
+  width: 120px;
+  font-weight: bold;
+}
+
+.barras div div {
+  background-color: #4CAF50;
+  height: 20px;
+  color: white;
+  text-align: right;
+  padding-right: 5px;
+  border-radius: 4px;
+}
+
+/* --- Pastel --- */
+.pastel {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 10px auto;
+  background: conic-gradient(#ff9800 0deg 216deg, #2196f3 216deg 360deg);
+}
+
+.leyenda {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.leyenda li {
+  margin: 4px 0;
+}
+
+.color {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  margin-right: 8px;
+}
+
+.color.gato { background-color: #ff9800; }
+.color.perro { background-color: #2196f3; }
+
+/* --- Tabla --- */
+.tablaStats {
+  width: 50%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.tablaStats th, .tablaStats td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.tablaStats th {
+  background-color: #f0f0f0;
+}
+
