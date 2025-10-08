@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Regiones</title>
+</head>
+<body>
+  <h1>Regiones de Chile</h1>
+  <ul>
+    {% for r in regiones %}
+      <li>{{ r.nombre }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>

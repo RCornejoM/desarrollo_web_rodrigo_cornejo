@@ -3,55 +3,81 @@
 <head>
   <title>Agregar Aviso de Adopción</title>
   <link rel="stylesheet" href="../static/css/style.css">
-  <script src="data/comunas-por-regiones.js" defer></script>
-  <script src="js/region-comuna.js" defer></script>
-  <script src="js/formulario.js" defer></script>
+  <script src="../static/js/formulario.js" defer></script>
 </head>
 <body>
   <header>
     <h1>Nuevo Aviso de Adopción</h1>
     <nav>
-      <a href="/">Portada</a>
-      <a href="/aviso_form">Agregar aviso de adopción</a>
-      <a href="/aviso_list">Ver listado de adopciones</a>
+      <a href="/portada">Portada</a>
+      <a href="/aviso_form">Agregar aviso</a>
+      <a href="/aviso_list">Listado de adopciones</a>
       <a href="/stats">Estadísticas</a>
     </nav>
   </header>
-
   <div>
-    <form id="avisoForm">
-      <fieldset>
-        <legend>¿Dónde?</legend>
+    <form id="avisoForm" method="POST" enctype="multipart/form-data">
+      <div>
         <label>Región:
           <select id="region" name="region">
             <option value="">Seleccione una región</option>
+            {% for r in regiones_data %}
+            <option value="{{ r.id }}">{{ r.nombre }}</option>
+            {% endfor %}
           </select>
         </label>
-        <br>
+      </div>
+
+      <div>
         <label>Comuna:
-          <select id="comuna" name="comuna">
+          <select id="comuna" name="comuna" disabled>
             <option value="">Seleccione una comuna</option>
           </select>
         </label>
-        <br>
-        <label>Sector:
-          <input type="text" id="sector" name="sector" maxlength="100" placeholder="Ej: Beauchef 851">
-        </label>
-      </fieldset>
+      </div>
 
-      <fieldset>
-        <legend>¿Contacto de esta publicación?</legend>
+      <script>
+      const regionSelect = document.getElementById("region");
+      const comunaSelect = document.getElementById("comuna");
+      const regionesData = {{ regiones_data|tojson|safe }};
+
+      regionSelect.addEventListener("change", () => {
+          const regionId = parseInt(regionSelect.value);
+          const region = regionesData.find(r => r.id === regionId);
+
+          comunaSelect.innerHTML = "<option value=''>Seleccione una comuna</option>";
+
+          if(region && region.comunas && region.comunas.length > 0){
+              region.comunas.forEach(c => {
+                  const option = document.createElement("option");
+                  option.value = c.id;
+                  option.textContent = c.nombre;
+                  comunaSelect.appendChild(option);
+              });
+              comunaSelect.disabled = false;
+          } else {
+              comunaSelect.disabled = true;
+          }
+      });
+      </script>
+      <div>
         <label>Nombre:
-          <input type="text" id="nombre" name="nombre" maxlength="200" placeholder="Ej: Juan Pérez">
-        </label><br>
+          <input type="text" name="nombre" maxlength="200" placeholder="Ej: Juan Pérez">
+        </label>
+      </div>
+      <div>
         <label>Email:
-          <input type="email" id="email" name="email" maxlength="100" placeholder="Ej: ejemplo@mail.com">
-        </label><br>
+          <input type="email" name="email" maxlength="100" placeholder="Ej: ejemplo@mail.com">
+        </label>
+      </div>
+      <div>
         <label>Celular:
-          <input type="tel" id="celular" name="celular" placeholder="+569.12345678">
-        </label><br>
+          <input type="tel" name="celular" placeholder="+56912345678">
+        </label>
+      </div>
+      <div>
         <label>Contactar por:
-          <select id="contactarPor" name="contactarPor">
+          <select name="contactar_por">
             <option value="">Seleccione...</option>
             <option value="whatsapp">WhatsApp</option>
             <option value="telegram">Telegram</option>
@@ -60,70 +86,80 @@
             <option value="tiktok">TikTok</option>
             <option value="otra">Otra</option>
           </select>
-        </label><br>
-        <div id="contactoExtraContainer"></div>
-      </fieldset>
-
-      <fieldset>
-        <legend>¿Qué mascota ofrece en adopción?</legend>
+        </label>
+      </div>
+      <div>
         <label>Tipo:
-          <select id="tipo" name="tipo">
+          <select name="tipo">
             <option value="">Seleccione...</option>
             <option value="gato">Gato</option>
             <option value="perro">Perro</option>
           </select>
-        </label><br>
-
-        <label>Cantidad:
-          <input type="number" id="cantidad" name="cantidad" min="1">
-        </label><br>
-
-        <label>Edad:
-          <input type="number" id="edad" name="edad" min="1">
         </label>
-        <label>Unidad:
-          <select id="unidadEdad" name="unidadEdad">
-            <option value="">Seleccione...</option>
-            <option value="meses">Meses</option>
-            <option value="años">Años</option>
-          </select>
-        </label><br>
-
+      </div>
+      <div>
+        <label>Cantidad:
+          <input type="number" name="cantidad" min="1">
+        </label>
+      </div>
+      <div>
+        <label>Edad:
+          <input type="number" name="edad" min="1">
+        </label>
+        <select name="unidad_medida">
+          <option value="">Seleccione...</option>
+          <option value="a">Años</option>
+          <option value="m">Meses</option>
+        </select>
+      </div>
+      <div>
         <label>Fecha disponible para entrega:
-          <input type="datetime-local" id="fechaEntrega" name="fechaEntrega">
-        </label><br>
-
+          <input type="datetime-local" name="fecha_entrega">
+        </label>
+      </div>
+      <div>
         <label>Descripción:
-          <textarea id="descripcion" name="descripcion" cols="50" rows="10"></textarea>
-        </label><br>
-
-        <div id="fotosContainer">
-          <label>Foto:
-            <input type="file" name="foto" accept="image/*">
-          </label>
-        </div>
+          <textarea name="descripcion" cols="50" rows="5" placeholder="Escribe detalles sobre la mascota..."></textarea>
+        </label>
+      </div>
+      <div id="fotosContainer">
+        <label>Foto:
+          <input type="file" name="foto" accept="image/*">
+        </label>
+      </div>
+      <div>
         <button type="button" id="agregarFoto">Agregar otra foto</button>
-      </fieldset>
-      <button id="btnAgregar" type="button" onclick="ask_for_confirmation()" >Agregar este aviso de adopción</button>
+      </div>
+      <div>
+        <button type="submit">Agregar este aviso de adopción</button>
+      </div>
 
-
-    <div id="confirmacion" class="oculto">
-      <p>¿Está seguro que desea agregar este aviso de adopción?</p>
-      <button id="confirmarSi" type="submit">Sí, estoy seguro</button>
-      <button id="confirmarNo" onclick="close_confirmation()" type="button">No, quiero volver</button>
-    </div>
-    
     </form>
-    
-    <div id="mensajeFinal" class="oculto">
-      <p>Hemos recibido la información de adopción, ¡muchas gracias y suerte!</p>
-      <a href="index.html">Volver a la portada</a>
-    </div>
-    
   </div>
-    <footer>
+
+  <footer>
     <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
   </footer>
+
+  <script>
+    // Agregar múltiples fotos
+    const agregarFotoBtn = document.getElementById("agregarFoto");
+    const fotosContainer = document.getElementById("fotosContainer");
+
+    agregarFotoBtn.addEventListener("click", () => {
+      const newInput = document.createElement("input");
+      newInput.type = "file";
+      newInput.name = "foto";
+      newInput.accept = "image/*";
+
+      const newLabel = document.createElement("label");
+      newLabel.textContent = "Foto: ";
+      newLabel.appendChild(newInput);
+
+      fotosContainer.appendChild(newLabel);
+      fotosContainer.appendChild(document.createElement("br"));
+    });
+  </script>
 </body>
 </html>
 
