@@ -16,62 +16,43 @@
     </nav>
   </header>
 
-  <div>
-    <section id="welcome">
-      <h2>¡Bienvenido al sistema de adopción de mascotas!</h2>
-      <p>Aquí podrás agregar avisos, ver los animales disponibles y consultar estadísticas de adopciones recientes.</p>
-    </section>
+<div>
+  <section id="welcome">
+    <h2>¡Bienvenido al sistema de adopción de mascotas!</h2>
+    <p>Aquí podrás agregar avisos, ver los animales disponibles y consultar estadísticas de adopciones recientes.</p>
+  </section>
 
-    <h2>Últimos avisos de adopción</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Fecha publicación</th>
-          <th>Comuna</th>
-          <th>Sector</th>
-          <th>Cantidad, tipo y edad</th>
-          <th>Foto</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>2025-08-18</td>
-          <td>Santiago</td>
-          <td>Beauchef 851</td>
-          <td>1 Gato, 2 meses</td>
-          <td><img src="img/mi_gato.png" alt="Gato" width="80"></td>
-        </tr>
-        <tr>
-          <td>2025-08-17</td>
-          <td>Ñuñoa</td>
-          <td>Irarrázaval 3010</td>
-          <td>1 Perro, 1 año</td>
-          <td><img src="img/mi_gato_2.png" alt="Gato" width="80"></td>
-        </tr>
-        <tr>
-          <td>2025-08-15</td>
-          <td>Providencia</td>
-          <td>Los Leones</td>
-          <td>2 Gatos, 3 meses</td>
-          <td><img src="img/mi_gato.png" alt="Gato" width="80"></td>
-        </tr>
-        <tr>
-          <td>2025-08-14</td>
-          <td>La Florida</td>
-          <td>Walker Martínez</td>
-          <td>1 Perro, 6 meses</td>
-          <td><img src="img/mi_gato_2.png" alt="Gato" width="80"></td>
-        </tr>
-        <tr>
-          <td>2025-08-13</td>
-          <td>Puente Alto</td>
-          <td>Av. Concha y Toro</td>
-          <td>1 Gato, 4 meses</td>
-          <td><img src="img/mi_gato.png" alt="Gato" width="80"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <h2>Últimos avisos de adopción</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha publicación</th>
+        <th>Comuna</th>
+        <th>Sector</th>
+        <th>Cantidad, tipo y edad</th>
+        <th>Foto</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for aviso in avisos %}
+      <tr>
+        <td>{{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</td>
+        <td>{{ aviso.comuna.nombre if aviso.comuna else 'Sin comuna' }}</td>
+        <td>{{ aviso.sector or 'Sin sector' }}</td>
+        <td>{{ aviso.cantidad }} {{ aviso.tipo }}, {{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }}</td>
+        <td>
+          {% if aviso.fotos %}
+            <img src="{{ url_for('static', filename='uploads/' ~ aviso.fotos[0].nombre_archivo) }}" alt="{{ aviso.tipo }}" width="80">
+          {% else %}
+            Sin foto
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 
   <footer>
     <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
