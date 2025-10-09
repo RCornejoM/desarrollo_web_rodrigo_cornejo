@@ -34,8 +34,8 @@
         </tr>
       </thead>
       <tbody>
-        {% for aviso in avisos %}
-        <tr>
+      {% for aviso in avisos %}
+       <tr> 
           <td>{{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</td>
           <td>{{ aviso.comuna.nombre if aviso.comuna else 'Sin comuna' }}</td>
           <td>{{ aviso.sector or 'Sin sector' }}</td>

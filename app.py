@@ -14,7 +14,6 @@ def portada():
     return render_template("index.html", avisos=avisos)
     
 @app.route('/aviso_form', methods=['GET', 'POST'])
-@app.route('/aviso_form', methods=['GET', 'POST'])
 def aviso_form():
     session = get_session()
 
@@ -99,12 +98,12 @@ def aviso_form():
         contactar_por = request.form.get("contactar_por")
         identificador = request.form.get("identificador", "").strip()
         if contactar_por and identificador:
-            cp = ContactarPor(
+            cont_por = ContactarPor(
                 nombre=contactar_por,
                 identificador=identificador,
                 actividad_id=nuevo_aviso.id
             )
-            session.add(cp)
+            session.add(cont_por)
 
         session.commit()
         return redirect('/')
