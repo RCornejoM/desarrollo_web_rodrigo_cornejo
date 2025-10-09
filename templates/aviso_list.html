@@ -17,52 +17,40 @@
   </header>
 
   <div>
-<section id="tablaAvisos">
-<h2> Tabla de avisos </h2>
-<p>Aquí se muestran todos los avisos de mascotas</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Fecha Publicación</th>
-        <th>Fecha Entrega</th>
-        <th>Comuna</th>
-        <th>Cantidad / Tipo / Edad</th>
-        <th>Nombre Contacto</th>
-        <th>Fotos</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr data-aviso="1">
-        <td>2025-08-18</td>
-        <td>2025-08-21</td>
-        <td>Santiago</td>
-        <td>1 Gato / 2 meses</td>
-        <td>Juan Pérez</td>
-        <td><img src="img/mi_gato.png" class="thumbnail" alt="Gato" onclick="open_image_viewer('img/mi_gato.png')"></td>
-      </tr>
-      <tr data-aviso="2">
-        <td>2025-08-17</td>
-        <td>2025-08-22</td>
-        <td>Ñuñoa</td>
-        <td>1 Gato / 1 año</td>
-        <td>María López</td>
-        <td><img src="img/mi_gato_2.png" class="thumbnail" alt="Gato" onclick="open_image_viewer('img/mi_gato_2.png')"></td>
-      </tr>
-      <!-- agrega más filas según sea necesario -->
-    </tbody>
-  </table>
-</section>
-
-    <div id="visorImagen" class="oculto">
-      <div id="visorContenido">
-        <img id="imagenGrande" class="display_image" src="img/mi_gato.png" alt="Imagen a tamaño completo" >
-        <br>
-        <button id="cerrarVisor" onClick="close_image_viewer()">Cerrar</button>
-      </div>
-    </div>
-    
+    <section id="tablaAvisos">
+      <h2>Tabla de avisos</h2>
+      <p>Aquí se muestran todos los avisos de mascotas</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha Publicación</th>
+            <th>Fecha Entrega</th>
+            <th>Comuna</th>
+            <th>Cantidad / Tipo / Edad</th>
+            <th>Nombre Contacto</th>
+            <th>Foto</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aviso in avisos %}
+          <tr data-aviso="{{ aviso.id }}">
+            <td>{{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</td>
+            <td>{{ aviso.fecha_entrega.strftime('%Y-%m-%d') if aviso.fecha_entrega else 'Sin fecha' }}</td>
+            <td>{{ aviso.comuna.nombre if aviso.comuna else 'Sin comuna' }}</td>
+            <td>{{ aviso.cantidad }} {{ aviso.tipo }} / {{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }}</td>
+            <td>{{ aviso.nombre }}</td>
+            <td>
+              <img src="./static/uploads/mi_gato.png" alt="El Chiri sentado en el sillón" width="320px" height="240px" >
+              <img src="./static/uploads/mi_gato_2.png" alt="El Chiri un dia lunes" width="320px" height="240px">
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
   </div>
-    <footer>
+
+  <footer>
     <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
   </footer>
 </body>
