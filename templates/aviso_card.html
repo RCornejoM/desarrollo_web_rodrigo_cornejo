@@ -3,7 +3,7 @@
 <head>
   <title>Mas detales del aviso de adopcion</title>
   <link rel="stylesheet" href="../static/css/style.css">
-  <script src="js/detail.js" defer></script>
+  <script src="../static/js/image_viewer.js" defer></script>
 </head>
 <body>
   <header>
@@ -36,9 +36,17 @@
 
     <h3>Fotos</h3>
     <div>
-        <img src="../static/uploads/mi_gato.png" alt="El Chiri sentado en el sillón" width="800px" height="600px" >
+        <img src="../static/uploads/mi_gato.png" alt="El Chiri sentado en el sillón" width="320px" height="240px" onclick="open_image_viewer('../static/uploads/mi_gato.png')">
     </div>
   </div>
+
+  <div id="visorImagen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;background:black; z-index:100">
+  <div style="position:relative;">
+    <img id="imagenGrande" src="" alt="Imagen en grande" width="800px" height="600px">
+    <button onclick="close_image_viewer()">Cerrar</button>
+  </div>
+</div>
+
   <footer>
     <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
   </footer>
