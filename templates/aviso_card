@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Mas detales del aviso de adopcion</title>
+  <link rel="stylesheet" href="../static/css/style.css">
+  <script src="js/detail.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1> Aviso de adopcion</h1>
+    <nav>
+      <a href="/">Portada</a>
+      <a href="/aviso_form">Agregar aviso de adopción</a>
+      <a href="/aviso_list">Ver listado de adopciones</a>
+      <a href="/stats">Estadísticas</a>
+    </nav>
+  </header>
+
+ <div>
+    <p>Fecha de publicación: {{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</p>
+    <p>Fecha disponible para entrega: {{ aviso.fecha_entrega.strftime('%Y-%m-%d') if aviso.fecha_entrega else 'Sin fecha' }}</p>
+    <p>Región / Comuna: {{ aviso.comuna.region.nombre if aviso.comuna else 'Sin región' }} / {{ aviso.comuna.nombre if aviso.comuna else 'Sin comuna' }}</p>
+    <p>Sector: {{ aviso.sector or 'Sin sector' }}</p>
+    <p>Tipo y cantidad de mascotas: {{ aviso.cantidad }} {{ aviso.tipo }} ({{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }})</p>
+    <p>Nombre del contacto: {{ aviso.nombre }}</p>
+    <p>Email: {{ aviso.email }}</p>
+    <p>Celular: {{ aviso.celular }}</p>
+    <p>Contactar por: 
+      {% for cp in aviso.contactar_por %}
+        {{ cp.nombre }} ({{ cp.identificador }}){% if not loop.last %}, {% endif %}
+      {% else %}
+        No especificado
+      {% endfor %}
+    </p>
+    <p>Descripción: {{ aviso.descripcion or 'Sin descripción' }}</p>
+
+    <h3>Fotos</h3>
+    <div>
+      {% if aviso.fotos %}
+        {% for foto in aviso.fotos %}
+          <img src="{{ url_for('static', filename='uploads/' ~ foto.nombre_archivo) }}" alt="{{ aviso.tipo }}" width="150">
+        {% endfor %}
+      {% else %}
+        <img src="{{ url_for('static', filename='uploads/gato.png') }}" alt="Gato" width="150">
+      {% endif %}
+    </div>
+  </div>
+
+</body>
+</html>

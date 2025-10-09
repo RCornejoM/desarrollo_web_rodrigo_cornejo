@@ -1,101 +1,70 @@
-  // CONTACTAR POR
-  const contactarPor = document.getElementById("contactarPor");
-  const extraContainer = document.getElementById("contactoExtraContainer");
+var form = document.getElementById("avisoForm");
+var fotosContainer = document.getElementById("fotosContainer");
+var btnAgregarFoto = document.getElementById("agregarFoto");
 
-  if (contactarPor) {
-    contactarPor.addEventListener("change", () => {
-      extraContainer.innerHTML = "";
-      if (contactarPor.value) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.id = "contactoExtra";
-        input.placeholder = "Ingrese ID o URL (4-50 caracteres)";
-        input.minLength = 4;
-        input.maxLength = 50;
-        extraContainer.appendChild(input);
-      }
-    });
+btnAgregarFoto.onclick = function() {
+  var totalFotos = fotosContainer.getElementsByTagName("input").length;
+  if (totalFotos < 5) {
+    var nuevoDiv = document.createElement("div");
+    nuevoDiv.innerHTML = '<label>Foto: <input type="file" name="foto" accept="image/*"></label>';
+    fotosContainer.appendChild(nuevoDiv);
+  } else {
+    alert("Máximo 5 fotos permitidas");
+  }
+};
+
+form.onsubmit = function(e) {
+  e.preventDefault();
+  var errores = "";
+
+  var region = form.elements["region"].value;
+  var comuna = form.elements["comuna"].value;
+  var sector = form.elements["sector"].value.trim();
+  var nombre = form.elements["nombre"].value.trim();
+  var email = form.elements["email"].value.trim();
+  var celular = form.elements["celular"].value.trim();
+  var descripcion = form.elements["descripcion"].value.trim();
+  var tipo = form.elements["tipo"].value;
+  var cantidad = parseInt(form.elements["cantidad"].value);
+  var edad = parseInt(form.elements["edad"].value);
+  var unidadEdad = form.elements["unidad_medida"].value;
+  var fechaEntrega = form.elements["fecha_entrega"].value;
+  var fotos = form.elements["foto"]; // puede ser lista si hay varias
+
+  if (region === "") errores += "- Debe seleccionar una región.\n";
+  if (comuna === "") errores += "- Debe seleccionar una comuna.\n";
+  if (sector.length < 3) errores += "- El sector debe tener al menos 3 caracteres.\n";
+  if (nombre.length < 3) errores += "- El nombre debe tener al menos 3 caracteres.\n";
+
+  // Validación de email simple
+  if (email === "") {
+    errores += "- El email es obligatorio.\n";
+  } else if (email.indexOf("@") === -1 || email.indexOf(".") === -1) {
+    errores += "- El email debe tener un formato válido.\n";
   }
 
-  // FOTO
-  const fotosContainer = document.getElementById("fotosContainer");
-  const btnAgregarFoto = document.getElementById("agregarFoto");
-
-  if (btnAgregarFoto) {
-    btnAgregarFoto.addEventListener("click", () => {
-      const totalFotos = fotosContainer.querySelectorAll("input[type='file']").length;
-      if (totalFotos < 5) {
-        const nuevo = document.createElement("div");
-        nuevo.innerHTML = `<label>Foto: <input type="file" name="foto" accept="image/*"></label>`;
-        fotosContainer.appendChild(nuevo);
-      } else {
-        alert("Máximo 5 fotos permitidas");
-      }
-    });
+  // Validación de celular simple: mínimo 8 dígitos y solo números
+  if (celular === "") {
+    errores += "- El celular es obligatorio.\n";
+  } else if (!/^\d{8,15}$/.test(celular)) {
+    errores += "- El celular debe tener entre 8 y 15 números.\n";
   }
 
-// VALIDACIÓN 
-const form = document.getElementById("avisoForm");
-const confirmacion = document.getElementById("confirmacion");
-const mensajeFinal = document.getElementById("mensajeFinal");
+  if (tipo === "") errores += "- Debe seleccionar el tipo de mascota.\n";
+  if (isNaN(cantidad) || cantidad < 1) errores += "- Cantidad inválida.\n";
+  if (isNaN(edad) || edad < 1) errores += "- Edad inválida.\n";
+  if (unidadEdad === "") errores += "- Debe indicar unidad de edad (si es en meses o años).\n";
+  if (fechaEntrega === "") errores += "- Debe indicar una fecha de entrega.\n";
+  if (descripcion === "") errores += "- Debe indicar una descripcion.\n";
+  var fotosCount = fotos.length ? fotos.length : (fotos.value ? 1 : 0);
+  if (fotosCount === 0) errores += "- Debe subir al menos una foto.\n";
+  if (fotosCount > 5) errores += "- Debe subir a lo más cinco fotos.\n";
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault()
-   
-  const nombre = document.getElementById("nombre").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const tipo = document.getElementById("tipo").value;
-  const cantidad = parseInt(document.getElementById("cantidad").value);
-  const edad = parseInt(document.getElementById("edad").value);
-  const unidadEdad = document.getElementById("unidadEdad").value;
-  const regionVal = document.getElementById("region").value;
-  const comunaVal = document.getElementById("comuna").value;
-  const fotos = fotosContainer.querySelectorAll("input[type='file']");
-
-  let errores = [];
-
-  if (!regionVal) errores.push("Debe seleccionar una región.");
-  if (!comunaVal) errores.push("Debe seleccionar una comuna.");
-  if (nombre.length < 3) errores.push("El nombre debe tener al menos 3 caracteres.");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errores.push("Email inválido.");
-  if (!tipo) errores.push("Debe seleccionar el tipo de mascota.");
-  if (!cantidad || cantidad < 1) errores.push("Cantidad inválida.");
-  if (!edad || edad < 1) errores.push("Edad inválida.");
-  if (!unidadEdad) errores.push("Debe indicar unidad de edad."); 
-  if (fotos.length === 0) errores.push("Debe subir al menos una foto.");
-  if (fotos.length > 5) errores.push("Debe subir a lo más cinco fotos.");
-
-  if (errores.length > 0) {
-    alert("Errores:\n" + errores.join("\n"));
+  if (errores !== "") {
+    alert("Errores:\n" + errores);
     return;
-  }else{
-     confirmacion.style.display = "none";
-     form.style.display = "none";
-     mensajeFinal.style.display = "block";
-       
-    const params = new URLSearchParams({
-      nombre,
-      email,
-      tipo,
-      cantidad,
-      edad,
-      unidadEdad,
-      region: regionVal,
-      comuna: comunaVal
-    });
-
-  window.location.href = "aviso_list.html?" + params.toString();
-    
   }
-});
 
-
-function ask_for_confirmation(){
-  confirmacion.style.display = "block";
-}
-
-function close_confirmation(){
-  confirmacion.style.display = "none";
-}
-
+  form.submit();
+};
 

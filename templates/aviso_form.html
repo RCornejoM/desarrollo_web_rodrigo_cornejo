@@ -145,26 +145,6 @@
   <footer>
     <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
   </footer>
-
-  <script>
-    // Agregar múltiples fotos
-    const agregarFotoBtn = document.getElementById("agregarFoto");
-    const fotosContainer = document.getElementById("fotosContainer");
-
-    agregarFotoBtn.addEventListener("click", () => {
-      const newInput = document.createElement("input");
-      newInput.type = "file";
-      newInput.name = "foto";
-      newInput.accept = "image/*";
-
-      const newLabel = document.createElement("label");
-      newLabel.textContent = "Foto: ";
-      newLabel.appendChild(newInput);
-
-      fotosContainer.appendChild(newLabel);
-      fotosContainer.appendChild(document.createElement("br"));
-    });
-  </script>
 </body>
 </html>
 
