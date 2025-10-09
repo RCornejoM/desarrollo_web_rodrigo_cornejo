@@ -36,13 +36,7 @@
 
     <h3>Fotos</h3>
     <div>
-      {% if aviso.fotos %}
-        {% for foto in aviso.fotos %}
-          <img src="{{ url_for('static', filename='uploads/' ~ foto.nombre_archivo) }}" alt="{{ aviso.tipo }}" width="150">
-        {% endfor %}
-      {% else %}
-        <img src="{{ url_for('static', filename='uploads/gato.png') }}" alt="Gato" width="150">
-      {% endif %}
+        <img src="../static/uploads/mi_gato.png" alt="El Chiri sentado en el sillón" width="800px" height="600px" >
     </div>
   </div>
 

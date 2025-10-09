@@ -128,7 +128,14 @@ def aviso_list():
     avisos = session.scalars(select(AvisoAdopcion)).all()
     return render_template('aviso_list.html', avisos=avisos)
     
-    
+@app.route('/aviso/<int:aviso_id>')
+def detalle_aviso(aviso_id):
+    session = get_session()
+    aviso = session.get(AvisoAdopcion, aviso_id)
+    if not aviso:
+        abort(404)
+    return render_template("aviso_card.html", aviso=aviso)
+   
 @app.route('/stats')
 def stats():
     return render_template('stats.html')

@@ -9,7 +9,9 @@ function close_image_viewer(){
 }
 
 
-
+function goToDetalle(avisoId) {
+  window.location.href = "/aviso/" + avisoId;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const tablaAvisos = document.getElementById("tablaAvisos");
