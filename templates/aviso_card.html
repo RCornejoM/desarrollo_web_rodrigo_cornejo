@@ -26,8 +26,8 @@
     <p>Email: {{ aviso.email }}</p>
     <p>Celular: {{ aviso.celular }}</p>
     <p>Contactar por: 
-      {% for cp in aviso.contactar_por %}
-        {{ cp.nombre }} ({{ cp.identificador }}){% if not loop.last %}, {% endif %}
+      {% for contact_por in aviso.contactar_por %}
+        {{ contact_por.nombre }} ({{ contact_por.identificador }}){% if not loop.last %}, {% endif %}
       {% else %}
         No especificado
       {% endfor %}
@@ -39,6 +39,8 @@
         <img src="../static/uploads/mi_gato.png" alt="El Chiri sentado en el sillón" width="800px" height="600px" >
     </div>
   </div>
-
+  <footer>
+    <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
+  </footer>
 </body>
 </html>
