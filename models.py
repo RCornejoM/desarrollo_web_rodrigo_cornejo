@@ -35,10 +35,10 @@ class AvisoAdopcion(Base):
     unidad_medida: Mapped[str] = mapped_column(Enum("a", "m"))
     fecha_entrega: Mapped[datetime] = mapped_column(DateTime)
     descripcion: Mapped[str] = mapped_column(Text)
-
     comuna: Mapped["Comuna"] = relationship("Comuna", back_populates="avisos")
     fotos: Mapped[list["Foto"]] = relationship("Foto", back_populates="aviso")
     contactar_por: Mapped[list["ContactarPor"]] = relationship("ContactarPor", back_populates="aviso")
+    comentarios: Mapped[list["Comentario"]] = relationship("Comentario", back_populates="aviso")
 
 
 class Foto(Base):
@@ -47,7 +47,6 @@ class Foto(Base):
     ruta_archivo: Mapped[str] = mapped_column(String(300))
     nombre_archivo: Mapped[str] = mapped_column(String(300))
     actividad_id: Mapped[int] = mapped_column(ForeignKey("aviso_adopcion.id"))
-
     aviso: Mapped["AvisoAdopcion"] = relationship("AvisoAdopcion", back_populates="fotos")
 
 
@@ -57,7 +56,14 @@ class ContactarPor(Base):
     nombre: Mapped[str] = mapped_column(Enum('whatsapp', 'telegram', 'X', 'instagram', 'tiktok', 'otra'))
     identificador: Mapped[str] = mapped_column(String(150))
     actividad_id: Mapped[int] = mapped_column(ForeignKey("aviso_adopcion.id"))
-
     aviso: Mapped["AvisoAdopcion"] = relationship("AvisoAdopcion", back_populates="contactar_por")
 
+class Comentario(Base):
+    __tablename__ = "comentario"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    aviso_id: Mapped[int] = mapped_column(ForeignKey("aviso_adopcion.id"))
+    nombre: Mapped[str] = mapped_column(String(80))
+    texto: Mapped[str] = mapped_column(Text)
+    fecha: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    aviso: Mapped["AvisoAdopcion"] = relationship("AvisoAdopcion", back_populates="comentarios")
 

@@ -15,11 +15,11 @@
       <a href="/stats">Estadísticas</a>
     </nav>
   </header>
-
+  <main>
  <div>
     <p>Fecha de publicación: {{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</p>
     <p>Fecha disponible para entrega: {{ aviso.fecha_entrega.strftime('%Y-%m-%d') if aviso.fecha_entrega else 'Sin fecha' }}</p>
-    <p>Región / Comuna: {{ aviso.comuna.region.nombre if aviso.comuna else 'Sin región' }} / {{ aviso.comuna.nombre if aviso.comuna else 'Sin comuna' }}</p>
+    <p>Región/Comuna: {{ aviso.comuna.region.nombre if aviso.comuna else 'Sin región' }} / {{ aviso.comuna.nombre if aviso.comuna else 'Sin comuna' }}</p>
     <p>Sector: {{ aviso.sector or 'Sin sector' }}</p>
     <p>Tipo y cantidad de mascotas: {{ aviso.cantidad }} {{ aviso.tipo }} ({{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }})</p>
     <p>Nombre del contacto: {{ aviso.nombre }}</p>
@@ -48,6 +48,63 @@
   </div>
 </div>
 
+
+
+<div id="comentarios">
+  {% for c in aviso.comentarios %}
+    <p><strong>{{ c.nombre }}</strong>: {{ c.texto }}</p>
+  {% endfor %}
+</div>
+
+<div id="comentario_waiting_message" style="display:none;">Posteando comentario...</div>
+
+  <h3>Agregar comentario</h3>
+
+<input type="text" id="nombre" placeholder="Tu nombre">
+<textarea id="texto" rows="4" cols="50" placeholder="Escribe tu comentario"></textarea>
+<button type="button" onclick="enviarComentario({{ aviso.id }})">Agregar comentario</button>
+<div id="comentario_waiting_message" style="display:none;">Enviando...</div>
+
+
+<script>
+
+function enviarComentario(aviso_id) {
+    var nombre = document.getElementById("nombre").value.trim();
+    var texto = document.getElementById("texto").value.trim();
+
+    if (nombre.length < 3 || nombre.length > 80) {
+        alert("El nombre debe tener entre 3 y 80 caracteres.");
+        return;
+    }
+    if (texto.length < 5) {
+        alert("El comentario debe tener al menos 5 caracteres.");
+        return;
+    }
+
+    var data = new FormData();
+    data.append("aviso_id", aviso_id);
+    data.append("nombre", nombre);
+    data.append("texto", texto);
+
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function(){
+        document.getElementById("comentario_waiting_message").style.display = xmlhttp.readyState == 4 ? "none" : "block";
+        if (xmlhttp.readyState == 4) {
+            if(xmlhttp.status == 200){
+                document.getElementById("comentarios").innerHTML += "<p>"+xmlhttp.responseText+"</p>";
+                document.getElementById("nombre").value = "";
+                document.getElementById("texto").value = "";
+            } else {
+                console.error("Error, Status: "+xmlhttp.status);
+            }
+        }
+    };
+    xmlhttp.open("POST", "/agregar_comentario", true);
+    xmlhttp.send(data);
+}
+</script>
+
+  </main>
   <footer>
     <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
   </footer>

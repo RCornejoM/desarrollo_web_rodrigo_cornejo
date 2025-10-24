@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, make_response
 from sqlalchemy import select
 from db import get_session
-from models import Region, AvisoAdopcion, Foto, ContactarPor
+from models import Region, AvisoAdopcion, Foto, ContactarPor, Comentario
 from datetime import datetime
-
 
 app = Flask(__name__)
 
@@ -139,6 +138,93 @@ def detalle_aviso(aviso_id):
 def stats():
     return render_template('stats.html')
 
+@app.route('/agregar_comentario', methods=['POST'])
+def agregar_comentario():
+    session = get_session()
+    
+    aviso_id = request.form.get("aviso_id")
+    nombre = request.form.get("nombre", "").strip()
+    texto = request.form.get("texto", "").strip()
+
+    if not nombre or len(nombre) < 3 or len(nombre) > 80:
+        return "Nombre inválido (3-80 caracteres)", 400
+    if not texto or len(texto) < 5:
+        return "Comentario inválido (mínimo 5 caracteres)", 400
+
+    nuevo_comentario = Comentario(
+        aviso_id=int(aviso_id),
+        nombre=nombre,
+        texto=texto,
+        fecha=datetime.now()
+    )
+    session.add(nuevo_comentario)
+    session.commit()
+    
+    return f"<strong>{nombre}</strong>: {texto}"
+
+
+@app.route('/datos_line')
+def datos_line():
+    session = get_session()
+    avisos = session.scalars(select(AvisoAdopcion)).all()
+
+    # contar por día (muy simple, hardcode de ejemplo)
+    dias = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom']
+    cantidades = [0,0,0,0,0,0,0]
+    for aviso in avisos:
+        dia = aviso.fecha_ingreso.weekday()  # lunes=0
+        cantidades[dia] += 1
+
+    texto = "["
+    for c in cantidades:
+        texto += str(c)+","
+    texto = texto[:-1]
+    texto += "]"
+
+    resp = make_response(texto)
+    resp.headers["Content-type"] = "application/json;charset=UTF-8"
+    resp.headers["Cache-Control"] = "no-cache"
+    return resp
+
+@app.route('/datos_pie')
+def datos_pie():
+    session = get_session()
+    avisos = session.scalars(select(AvisoAdopcion)).all()
+
+    gatos = 0
+    perros = 0
+    for aviso in avisos:
+        if aviso.tipo == 'gato':
+            gatos += 1
+        else:
+            perros += 1
+
+    texto = '[{"name":"Gatos","y":'+str(gatos)+'},{"name":"Perros","y":'+str(perros)+'}]'
+    resp = make_response(texto)
+    resp.headers["Content-type"] = "application/json;charset=UTF-8"
+    resp.headers["Cache-Control"] = "no-cache"
+    return resp
+
+@app.route('/datos_bars')
+def datos_bars():
+    session = get_session()
+    avisos = session.scalars(select(AvisoAdopcion)).all()
+
+    meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+    gatos = [0]*12
+    perros = [0]*12
+    for aviso in avisos:
+        mes = aviso.fecha_ingreso.month-1
+        if aviso.tipo == 'gato':
+            gatos[mes] += 1
+        else:
+            perros[mes] += 1
+
+    texto = '{"gatos":['+','.join(map(str,gatos))+'], "perros":['+','.join(map(str,perros))+']}'
+    resp = make_response(texto)
+    resp.headers["Content-type"] = "application/json;charset=UTF-8"
+    resp.headers["Cache-Control"] = "no-cache"
+    return resp
 
 if __name__ == "__main__":
     app.run()

@@ -13,7 +13,7 @@ No se implementó el manejo de archivos. Se implementaron cinco templates (una P
 1. Descargue o clone este repositorio.  
 2. Cree un entorno virtual
 ```bash
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 venv/Scripts/activate
 ```

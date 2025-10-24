@@ -3,10 +3,16 @@
 <head>
   <title>Estadísticas de Adopciones</title>
   <link rel="stylesheet" href="../static/css/style.css">
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/series-label.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 <body>
+
   <header>
-    <h1>Estadísticas de Adopciones</h1>
+    <h1>Centro de Adopción de Mascotas</h1>
     <nav>
       <a href="/">Portada</a>
       <a href="/aviso_form">Agregar aviso de adopción</a>
@@ -14,7 +20,64 @@
       <a href="/stats">Estadísticas</a>
     </nav>
   </header>
-    <footer>
+  <h1>Estadísticas de Adopciones</h1>
+  <nav>
+    <a href="/">Portada</a> |
+    <a href="/aviso_form">Agregar aviso</a> |
+    <a href="/aviso_list">Listado</a> |
+    <a href="/stats">Estadísticas</a>
+  </nav>
+
+  <h2>1) Avisos por día</h2>
+  <div id="line" style="width:600px;height:300px"></div>
+
+  <h2>2) Total por tipo de mascota</h2>
+  <div id="pie" style="width:400px;height:300px"></div>
+
+  <h2>3) Avisos por mes (Gatos vs Perros)</h2>
+  <div id="bars" style="width:600px;height:300px"></div>
+
+  <p><a href="/">Volver</a></p>
+
+<script>
+fetch('/datos_line')
+.then(res => res.json())
+.then(data => {
+  Highcharts.chart('line', {
+    title: { text: 'Avisos agregados por día' },
+    xAxis: { categories: ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'] },
+    yAxis: { title: { text: 'Cantidad' } },
+    series: [{ name: 'Avisos', data: data }]
+  });
+});
+
+fetch('/datos_pie')
+.then(res => res.json())
+.then(data => {
+  Highcharts.chart('pie', {
+    chart: { type: 'pie' },
+    title: { text: 'Total por tipo de mascota' },
+    series: [{ name: 'Avisos', data: data }]
+  });
+});
+
+fetch('/datos_bars')
+.then(res => res.json())
+.then(data => {
+  Highcharts.chart('bars', {
+    chart: { type: 'column' },
+    title: { text: 'Avisos por mes' },
+    xAxis: { categories: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'] },
+    yAxis: { title: { text: 'Cantidad' } },
+    series: [
+      { name: 'Gatos', data: data.gatos },
+      { name: 'Perros', data: data.perros }
+    ]
+  });
+});
+</script>
+
+  <footer>
     <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
   </footer>
 </body>
