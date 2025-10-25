@@ -1,6 +1,12 @@
 {% extends "layout.html" %}
+
+{% block headers %}
+<script src="{{url_for('static', filename='js/image_viewer.js')}}" defer></script>
+{% endblock %}
+
 {% block content %}
   <h1>Información del Aviso</h1>
+ <section id="seccion-informacion">
  <div>
     <p>Fecha de publicación: {{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</p>
     <p>Fecha disponible para entrega: {{ aviso.fecha_entrega.strftime('%Y-%m-%d') if aviso.fecha_entrega else 'Sin fecha' }}</p>
@@ -33,11 +39,15 @@
   </div>
 </div>
 
-
-
+ </section>
+ <section id="seccion-comentarios">
 <div id="comentarios">
   {% for c in aviso.comentarios %}
-    <p><strong>{{ c.nombre }}</strong>: {{ c.texto }}</p>
+    <p>
+      <strong>{{ c.nombre }}</strong> 
+      <em>({{ c.fecha.strftime('%Y-%m-%d %H:%M') }})</em>: 
+      {{ c.texto }}
+    </p>
   {% endfor %}
 </div>
 
@@ -45,11 +55,11 @@
 
   <h3>Agregar comentario</h3>
 
-<input type="text" id="nombre" placeholder="Tu nombre">
-<textarea id="texto" rows="4" cols="50" placeholder="Escribe tu comentario"></textarea>
-<button type="button" onclick="enviarComentario({{ aviso.id }})">Agregar comentario</button>
-<div id="comentario_waiting_message" style="display:none;">Enviando...</div>
+  <input type="text" id="nombre" placeholder="Tu nombre" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;">
+  <textarea id="texto" rows="4" cols="50" placeholder="Escribe tu comentario" style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;"></textarea>
+  <button type="button" onclick="enviarComentario({{ aviso.id }})" style="padding: 10px 15px; background-color: #4CAF50; color: white; border: none; cursor: pointer;"> Agregar comentario</button>
 
+ </section>
 
 <script>
 

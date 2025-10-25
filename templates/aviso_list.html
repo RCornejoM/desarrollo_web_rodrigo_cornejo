@@ -4,6 +4,7 @@
 <script src="{{url_for('static', filename='js/lista.js')}}" defer></script>
 {% endblock %}
 
+
 {% block content %}
   <div>
     <section id="tablaAvisos">
@@ -35,6 +36,17 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <div style="margin-top: 20px; text-align: center;">
+        {% if page > 1 %}
+          <a href="{{ url_for('aviso_list', page=page-1) }}">« Anterior</a>
+        {% endif %}
+        Página {{ page }} de {{ total_pages }}
+        {% if page < total_pages %}
+          <a href="{{ url_for('aviso_list', page=page+1) }}">Siguiente »</a>
+        {% endif %}
+      </div>
     </section>
   </div>
 {% endblock %}
+

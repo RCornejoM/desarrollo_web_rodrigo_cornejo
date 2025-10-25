@@ -3,6 +3,7 @@ from sqlalchemy import select
 from db import get_session
 from models import Region, AvisoAdopcion, Foto, ContactarPor, Comentario
 from datetime import datetime
+from math import ceil
 
 app = Flask(__name__)
 
@@ -119,19 +120,26 @@ def aviso_form():
     
     return render_template("aviso_form.html", regiones_data=regiones_data)
 
-
 @app.route('/aviso_list')
 def aviso_list():
     session = get_session()
-    avisos = session.scalars(select(AvisoAdopcion)).all()
-    return render_template('aviso_list.html', avisos=avisos)
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
+
+    all_avisos = session.scalars(select(AvisoAdopcion)).all()
+    total = ceil(len(all_avisos) / per_page)
+    
+    start = (page-1)*per_page
+    end = start + per_page
+    avisos = all_avisos[start:end]
+
+    return render_template('aviso_list.html', avisos=avisos, page=page, total_pages=total)
+
     
 @app.route('/aviso/<int:aviso_id>')
 def detalle_aviso(aviso_id):
     session = get_session()
     aviso = session.get(AvisoAdopcion, aviso_id)
-    if not aviso:
-        abort(404)
     return render_template("aviso_card.html", aviso=aviso)
    
 @app.route('/stats')
@@ -160,7 +168,7 @@ def agregar_comentario():
     session.add(nuevo_comentario)
     session.commit()
     
-    return f"<strong>{nombre}</strong>: {texto}"
+    return f"<strong>{nombre}</strong> (Ahora): {texto}"
 
 
 @app.route('/datos_line')
@@ -168,7 +176,6 @@ def datos_line():
     session = get_session()
     avisos = session.scalars(select(AvisoAdopcion)).all()
 
-    # contar por día (muy simple, hardcode de ejemplo)
     dias = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom']
     cantidades = [0,0,0,0,0,0,0]
     for aviso in avisos:

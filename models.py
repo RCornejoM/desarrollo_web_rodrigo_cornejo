@@ -61,9 +61,10 @@ class ContactarPor(Base):
 class Comentario(Base):
     __tablename__ = "comentario"
     id: Mapped[int] = mapped_column(primary_key=True)
-    aviso_id: Mapped[int] = mapped_column(ForeignKey("aviso_adopcion.id"))
-    nombre: Mapped[str] = mapped_column(String(80))
-    texto: Mapped[str] = mapped_column(Text)
+    aviso_id: Mapped[int] = mapped_column(ForeignKey("aviso_adopcion.id"), nullable=False)
+    nombre: Mapped[str] = mapped_column(String(80), nullable=False)
+    texto: Mapped[str] = mapped_column(String(300), nullable=False)
     fecha: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
     aviso: Mapped["AvisoAdopcion"] = relationship("AvisoAdopcion", back_populates="comentarios")
+
 
