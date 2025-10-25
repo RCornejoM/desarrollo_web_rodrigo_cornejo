@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
   <title>Portada - Adopciones</title>
-  <link rel="stylesheet" href="../static/css/style.css">
-  <script src="js/script.js" defer></script>
-  {% block headers %}{% endblock %}
+  <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  {% block headers %}
+  {% endblock %}
 </head>
 <body>
   <header>

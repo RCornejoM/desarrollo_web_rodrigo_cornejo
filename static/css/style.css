@@ -19,7 +19,8 @@ nav a {
 }
 
 main {
-  padding: 1em;
+  width: 1000px;
+  margin: auto;
 }
 
 table {
@@ -95,7 +96,6 @@ legend {
 }
 
 
-/* ESTADÍSTICAS */
 .grafico {
   margin: 20px 0;
   padding: 15px;
@@ -125,7 +125,6 @@ legend {
   border-radius: 4px;
 }
 
-/* --- Pastel --- */
 .pastel {
   position: relative;
   width: 200px;

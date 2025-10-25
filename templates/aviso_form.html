@@ -1,130 +1,109 @@
 {% extends "layout.html" %}
+
+{% block headers %}
+<script src="{{url_for('static', filename='js/formulario.js')}}" defer></script>
+{% endblock %}
+
 {% block content %}
-  <div>
-    <form id="avisoForm" method="POST" enctype="multipart/form-data">
-      <div>
-        <label>Región:
-          <select id="region" name="region">
-            <option value="">Seleccione una región</option>
-            {% for r in regiones_data %}
-            <option value="{{ r.id }}">{{ r.nombre }}</option>
-            {% endfor %}
-          </select>
-        </label>
-      </div>
+<div>
+  <h2>Añadir un aviso</h2>
+  <form id="avisoForm" method="POST" enctype="multipart/form-data">
+    <fieldset>
+      <legend>Ubicación</legend>
+      <label>Región:
+        <select id="region" name="region">
+          <option value="">Seleccione una región</option>
+          {% for r in regiones_data %}
+          <option value="{{ r.id }}">{{ r.nombre }}</option>
+          {% endfor %}
+        </select>
+      </label>
 
-      <div>
-        <label>Comuna:
-          <select id="comuna" name="comuna" disabled>
-            <option value="">Seleccione una comuna</option>
-          </select>
-        </label>
-      </div>
+      <label>Comuna:
+        <select id="comuna" name="comuna" disabled>
+          <option value="">Seleccione una comuna</option>
+        </select>
+      </label>
+    </fieldset>
 
-      <script>
-      const regionSelect = document.getElementById("region");
-      const comunaSelect = document.getElementById("comuna");
-      const regionesData = {{ regiones_data|tojson|safe }};
+    <fieldset>
+      <legend>Detalles de la mascota</legend>
+      <label>Sector:
+        <input type="text" name="sector" maxlength="100" placeholder="Ej: Beauchef 851">
+      </label>
 
-      regionSelect.addEventListener("change", () => {
-          const regionId = parseInt(regionSelect.value);
-          const region = regionesData.find(r => r.id === regionId);
+      <label>Tipo:
+        <select name="tipo">
+          <option value="">Seleccione...</option>
+          <option value="gato">Gato</option>
+          <option value="perro">Perro</option>
+        </select>
+      </label>
 
-          comunaSelect.innerHTML = "<option value=''>Seleccione una comuna</option>";
+      <label>Cantidad:
+        <input type="number" name="cantidad" min="1">
+      </label>
 
-          if(region && region.comunas && region.comunas.length > 0){
-              region.comunas.forEach(c => {
-                  const option = document.createElement("option");
-                  option.value = c.id;
-                  option.textContent = c.nombre;
-                  comunaSelect.appendChild(option);
-              });
-              comunaSelect.disabled = false;
-          } else {
-              comunaSelect.disabled = true;
-          }
-      });
-      </script>
-      <div>
-        <label>Sector:
-          <input type="text" name="sector" maxlength="100" placeholder="Ej: Beauchef 851">
-        </label>
-      </div>
-      <div>
-        <label>Nombre:
-          <input type="text" name="nombre" maxlength="200" placeholder="Ej: Juan Pérez">
-        </label>
-      </div>
-      <div>
-        <label>Email:
-          <input type="email" name="email" maxlength="100" placeholder="Ej: ejemplo@mail.com">
-        </label>
-      </div>
-      <div>
-        <label>Celular:
-          <input type="tel" name="celular" placeholder="+56912345678">
-        </label>
-      </div>
-      <div>
-        <label>Contactar por:
-          <select name="contactar_por">
-            <option value="">Seleccione...</option>
-            <option value="whatsapp">WhatsApp</option>
-            <option value="telegram">Telegram</option>
-            <option value="x">X</option>
-            <option value="instagram">Instagram</option>
-            <option value="tiktok">TikTok</option>
-            <option value="otra">Otra</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>Tipo:
-          <select name="tipo">
-            <option value="">Seleccione...</option>
-            <option value="gato">Gato</option>
-            <option value="perro">Perro</option>
-          </select>
-        </label>
-      </div>
-      <div>
-        <label>Cantidad:
-          <input type="number" name="cantidad" min="1">
-        </label>
-      </div>
-      <div>
-        <label>Edad:
-          <input type="number" name="edad" min="1">
-        </label>
+      <label>Edad:
+        <input type="number" name="edad" min="1">
         <select name="unidad_medida">
           <option value="">Seleccione...</option>
           <option value="a">Años</option>
           <option value="m">Meses</option>
         </select>
-      </div>
-      <div>
-        <label>Fecha disponible para entrega:
-          <input type="datetime-local" name="fecha_entrega">
-        </label>
-      </div>
-      <div>
-        <label>Descripción:
-          <textarea name="descripcion" cols="50" rows="5" placeholder="Escribe detalles sobre la mascota..."></textarea>
-        </label>
-      </div>
+      </label>
+
+      <label>Fecha disponible para entrega:
+        <input type="datetime-local" name="fecha_entrega">
+      </label>
+
+      <label>Descripción:
+        <textarea name="descripcion" cols="50" rows="5" placeholder="Escribe detalles sobre la mascota..."></textarea>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contacto</legend>
+      <label>Nombre:
+        <input type="text" name="nombre" maxlength="200" placeholder="Ej: Juan Pérez">
+      </label>
+
+      <label>Email:
+        <input type="email" name="email" maxlength="100" placeholder="Ej: ejemplo@mail.com">
+      </label>
+
+      <label>Celular:
+        <input type="tel" name="celular" placeholder="+56912345678">
+      </label>
+
+      <label>Contactar por:
+        <select name="contactar_por">
+          <option value="">Seleccione...</option>
+          <option value="whatsapp">WhatsApp</option>
+          <option value="telegram">Telegram</option>
+          <option value="x">X</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="otra">Otra</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Fotos</legend>
       <div id="fotosContainer">
         <label>Foto:
           <input type="file" name="foto" accept="image/*">
         </label>
       </div>
-      <div>
-        <button type="button" id="agregarFoto">Agregar otra foto</button>
-      </div>
-      <div>
-        <button type="submit">Agregar este aviso de adopción</button>
-      </div>
+      <button type="button" id="agregarFoto">Agregar otra foto</button>
+    </fieldset>
 
-    </form>
-  </div>
+    <div>
+      <button type="submit">Agregar este aviso de adopción</button>
+    </div>
+
+  </form>
+</div>
 {% endblock %}
 

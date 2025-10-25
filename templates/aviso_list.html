@@ -1,4 +1,9 @@
 {% extends "layout.html" %}
+
+{% block headers %}
+<script src="{{url_for('static', filename='js/lista.js')}}" defer></script>
+{% endblock %}
+
 {% block content %}
   <div>
     <section id="tablaAvisos">
