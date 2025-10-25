@@ -8,7 +8,7 @@ No se implementó el manejo de archivos. Se implementaron cinco templates (una P
 
 ---
 
-## Cómo configurar
+## Cómo configurar un nuevo env (No es necesario)
 
 ### Forma manual
 
@@ -40,12 +40,13 @@ python3 create_tables.py
 
 2. Ejecute
 ```bash
-. 
+./setup.sh 
 ```
 
 ### Para ejecutar
 
 ```bash
+source venv/bin/activate
 flask --app app.py run
 ```
 La página se mostrará en localhost:5000.
