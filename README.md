@@ -8,9 +8,12 @@ No se implementó el manejo de archivos. Se implementaron cinco templates (una P
 
 ---
 
-## Cómo Ejecutar
+## Cómo configurar
+
+### Forma manual
 
 1. Descargue o clone este repositorio.  
+
 2. Cree un entorno virtual
 ```bash
 python3 -m venv venv
@@ -18,25 +21,29 @@ source venv/bin/activate
 venv/Scripts/activate
 ```
 
-3. Si no existe la base de datos "adopciones", creela con:
-```mysql
-CREATE DATABASE adopciones;
-```
-
-y luego
-
+3. Instale dependencias
 ```bash
-mysql -u <user> -p adopciones < region-comuna.sql
-mysql -u <user> -p adopciones < tarea2.sql;
+pip install -r requirements.txt
 ```
----
 
-4. Finalmente ejecute
+4. Cree la base de datos con:
+```mysql
+python3 create_tables.py
+```
+
+### Forma automatica
+
+2. Ejecute
+```bash
+. 
+```
+
+### Para ejecutar
+
 ```bash
 flask --app app.py run
 ```
 La página se mostrará en localhost:5000.
-
 
 ---
 
