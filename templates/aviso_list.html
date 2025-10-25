@@ -7,7 +7,7 @@
 {% block content %}
   <div>
     <section id="tablaAvisos">
-      <h2>Tabla de avisos</h2>
+      <h1>Tabla de avisos</h1>
       <p>Aquí se muestran todos los avisos de mascotas</p>
       <table>
         <thead>
@@ -29,8 +29,7 @@
             <td>{{ aviso.cantidad }} {{ aviso.tipo }} / {{ aviso.edad }} {{ 'años' if aviso.unidad_medida == 'a' else 'meses' }}</td>
             <td>{{ aviso.nombre }}</td>
             <td>
-              <img src="../static/uploads/mi_gato.png" alt="El Chiri sentado en el sillón" width="320px" height="240px" >
-              <img src="../static/uploads/mi_gato_2.png" alt="El Chiri un dia lunes" width="320px" height="240px">
+              <img src="../static/uploads/mi_gato.png" alt="El Chiri sentado en el sillón" width="120px" >
             </td>
           </tr>
           {% endfor %}

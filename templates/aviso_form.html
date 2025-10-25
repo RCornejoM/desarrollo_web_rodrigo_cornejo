@@ -6,7 +6,7 @@
 
 {% block content %}
 <div>
-  <h2>Añadir un aviso</h2>
+  <h1>Añadir un aviso</h1>
   <form id="avisoForm" method="POST" enctype="multipart/form-data">
     <fieldset>
       <legend>Ubicación</legend>
@@ -104,6 +104,32 @@
     </div>
 
   </form>
+
+      <script>
+      const regionSelect = document.getElementById("region");
+      const comunaSelect = document.getElementById("comuna");
+      const regionesData = {{ regiones_data|tojson|safe }};
+
+      regionSelect.addEventListener("change", () => {
+          const regionId = parseInt(regionSelect.value);
+          const region = regionesData.find(r => r.id === regionId);
+
+          comunaSelect.innerHTML = "<option value=''>Seleccione una comuna</option>";
+
+          if(region && region.comunas && region.comunas.length > 0){
+              region.comunas.forEach(c => {
+                  const option = document.createElement("option");
+                  option.value = c.id;
+                  option.textContent = c.nombre;
+                  comunaSelect.appendChild(option);
+              });
+              comunaSelect.disabled = false;
+          } else {
+              comunaSelect.disabled = true;
+          }
+      });
+      </script>
+
 </div>
 {% endblock %}
 
