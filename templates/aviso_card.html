@@ -5,9 +5,11 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Información del Aviso</h1>
- <section id="seccion-informacion">
+  <style>main {display:flex}</style>
+
  <div>
+   <h1>Información del Aviso</h1>
+ <section id="seccion-informacion">
     <p>Fecha de publicación: {{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</p>
     <p>Fecha disponible para entrega: {{ aviso.fecha_entrega.strftime('%Y-%m-%d') if aviso.fecha_entrega else 'Sin fecha' }}</p>
     <p>Región/Comuna: {{ aviso.comuna.region.nombre if aviso.comuna else 'Sin región' }} / {{ aviso.comuna.nombre if aviso.comuna else 'Sin comuna' }}</p>
