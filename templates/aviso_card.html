@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title>Mas detales del aviso de adopcion</title>
-  <link rel="stylesheet" href="../static/css/style.css">
-  <script src="../static/js/image_viewer.js" defer></script>
-</head>
-<body>
-  <header>
-    <h1> Aviso de adopcion</h1>
-    <nav>
-      <a href="/">Portada</a>
-      <a href="/aviso_form">Agregar aviso de adopción</a>
-      <a href="/aviso_list">Ver listado de adopciones</a>
-      <a href="/stats">Estadísticas</a>
-    </nav>
-  </header>
-  <main>
+{% extends "layout.html" %}
+{% block content %}
  <div>
     <p>Fecha de publicación: {{ aviso.fecha_ingreso.strftime('%Y-%m-%d') }}</p>
     <p>Fecha disponible para entrega: {{ aviso.fecha_entrega.strftime('%Y-%m-%d') if aviso.fecha_entrega else 'Sin fecha' }}</p>
@@ -103,10 +87,4 @@ function enviarComentario(aviso_id) {
     xmlhttp.send(data);
 }
 </script>
-
-  </main>
-  <footer>
-    <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
-  </footer>
-</body>
-</html>
+{% endblock %}

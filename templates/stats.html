@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title>Estadísticas de Adopciones</title>
-  <link rel="stylesheet" href="../static/css/style.css">
+{% extends "layout.html" %}
+
+{% block headers %}
   <script src="https://code.highcharts.com/highcharts.js"></script>
   <script src="https://code.highcharts.com/modules/series-label.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/modules/export-data.js"></script>
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-</head>
-<body>
+{% endblock %}
 
-  <header>
-    <h1>Centro de Adopción de Mascotas</h1>
-    <nav>
-      <a href="/">Portada</a>
-      <a href="/aviso_form">Agregar aviso de adopción</a>
-      <a href="/aviso_list">Ver listado de adopciones</a>
-      <a href="/stats">Estadísticas</a>
-    </nav>
-  </header>
+{% block content %}
   <h1>Estadísticas de Adopciones</h1>
   <nav>
     <a href="/">Portada</a> |
@@ -77,9 +66,5 @@ fetch('/datos_bars')
 });
 </script>
 
-  <footer>
-    <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
-  </footer>
-</body>
-</html>
+{% endblock %}
 

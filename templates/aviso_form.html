@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title>Agregar Aviso de Adopción</title>
-  <link rel="stylesheet" href="../static/css/style.css">
-  <script src="../static/js/formulario.js" defer></script>
-</head>
-<body>
-  <header>
-    <h1>Nuevo Aviso de Adopción</h1>
-    <nav>
-      <a href="/">Portada</a>
-      <a href="/aviso_form">Agregar aviso</a>
-      <a href="/aviso_list">Listado de adopciones</a>
-      <a href="/stats">Estadísticas</a>
-    </nav>
-  </header>
+{% extends "layout.html" %}
+{% block content %}
   <div>
     <form id="avisoForm" method="POST" enctype="multipart/form-data">
       <div>
@@ -141,10 +126,5 @@
 
     </form>
   </div>
-
-  <footer>
-    <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
-  </footer>
-</body>
-</html>
+{% endblock %}
 

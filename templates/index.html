@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title>Portada - Adopciones</title>
-  <link rel="stylesheet" href="../static/css/style.css">
-  <script src="js/script.js" defer></script>
-</head>
-<body>
-  <header>
-    <h1>Centro de Adopción de Mascotas</h1>
-    <nav>
-      <a href="/">Portada</a>
-      <a href="/aviso_form">Agregar aviso de adopción</a>
-      <a href="/aviso_list">Ver listado de adopciones</a>
-      <a href="/stats">Estadísticas</a>
-    </nav>
-  </header>
-
+{% extends "layout.html" %}
+{% block content %}
   <div>
     <section id="welcome">
       <h2>¡Bienvenido al sistema de adopción de mascotas!</h2>
@@ -48,11 +32,4 @@
       </tbody>
     </table>
   </div>
-
-  <footer>
-    <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
-  </footer>
-</body>
-</html>
-
-
+{% endblock %}

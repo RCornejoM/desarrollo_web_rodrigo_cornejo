@@ -1,21 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title>Listado de Avisos de Adopción</title>
-  <link rel="stylesheet" href="../static/css/style.css">
-  <script src="../static/js/lista.js" defer></script>
-</head>
-<body>
-  <header>
-    <h1>Listado de Avisos de Adopción</h1>
-    <nav>
-      <a href="/">Portada</a>
-      <a href="/aviso_form">Agregar aviso de adopción</a>
-      <a href="/aviso_list">Ver listado de adopciones</a>
-      <a href="/stats">Estadísticas</a>
-    </nav>
-  </header>
-
+{% extends "layout.html" %}
+{% block content %}
   <div>
     <section id="tablaAvisos">
       <h2>Tabla de avisos</h2>
@@ -49,10 +33,4 @@
       </table>
     </section>
   </div>
-
-  <footer>
-    <p>Sistema de Adopciones | Rodrigo Cornejo - 2025</p>
-  </footer>
-</body>
-</html>
-
+{% endblock %}
